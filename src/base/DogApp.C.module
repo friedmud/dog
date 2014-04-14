@@ -1,0 +1,42 @@
+#include "DogApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+
+template<>
+InputParameters validParams<DogApp>()
+{
+  InputParameters params = validParams<MooseApp>();
+  return params;
+}
+
+DogApp::DogApp(const std::string & name, InputParameters parameters) :
+    MooseApp(name, parameters)
+{
+  srand(libMesh::processor_id());
+  
+  Moose::registerObjects(_factory);
+  DogApp::registerObjects(_factory);
+
+  Moose::associateSyntax(_syntax, _action_factory);
+  DogApp::associateSyntax(_syntax, _action_factory);
+}
+
+DogApp::~DogApp()
+{
+}
+
+void
+DogApp::registerApps()
+{
+  registerApp(DogApp);
+}
+
+void
+DogApp::registerObjects(Factory & factory)
+{
+}
+
+void
+DogApp::associateSyntax(Syntax & syntax, ActionFactory & action_factory)
+{
+}
